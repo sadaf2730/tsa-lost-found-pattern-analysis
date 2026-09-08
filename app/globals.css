@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Mode Tokens */
+    --tsa-bg: #F5F7FA;
+    --tsa-surface: #FFFFFF;
+    --tsa-card: #FFFFFF;
+    --tsa-primary: #0A2540;
+    --tsa-accent: #1E5AA8;
+    --tsa-text: #1F2937;
+    --tsa-muted: #6B7280;
+    --tsa-border: #D1D5DB;
+  }
+
+  .dark {
+    /* Dark Mode Tokens (Default) */
+    --tsa-bg: #081A2B;
+    --tsa-surface: #12263A;
+    --tsa-card: #12263A;
+    --tsa-primary: #1E5AA8;
+    --tsa-accent: #4DA3FF;
+    --tsa-text: #F8FAFC;
+    --tsa-muted: #94A3B8;
+    --tsa-border: #274060;
+  }
+
+  body {
+    background-color: var(--tsa-bg);
+    color: var(--tsa-text);
+    font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar for Enterprise Data Tables */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--tsa-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--tsa-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--tsa-accent);
+}
+
+/* Aviation Runway Line Accents */
+.runway-grid-pattern {
+  background-image: radial-gradient(rgba(77, 163, 255, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.runway-line {
+  background: linear-gradient(90deg, transparent, var(--tsa-accent), transparent);
+  height: 1px;
+}

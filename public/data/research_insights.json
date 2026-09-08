@@ -1,0 +1,34 @@
+[
+  {
+    "id": "INS-001",
+    "category": "Financial Loss Analysis",
+    "title": "Aggregated Claims Financial Disbursal",
+    "summary": "Historical TSA claim settlements totaled $17,610,696.94 across all recorded cases, with an average claim resolution payout of $80.60.",
+    "severity": "high",
+    "metric": "$17.61M Settlement Total"
+  },
+  {
+    "id": "INS-002",
+    "category": "Property Loss Patterns",
+    "title": "Primary Loss Category: Other",
+    "summary": "'Other' represents the single largest loss category accounting for 37,128 recorded incidents (17.0% of total claims).",
+    "severity": "medium",
+    "metric": "37,128 Incidents"
+  },
+  {
+    "id": "INS-003",
+    "category": "Geographical Concentration",
+    "title": "High Volume Region Identified (FL)",
+    "summary": "State 'FL' recorded the highest density of property loss and damage claims with 27,841 total filings.",
+    "severity": "info",
+    "metric": "27,841 Filings"
+  },
+  {
+    "id": "INS-004",
+    "category": "Operational Efficiency",
+    "title": "Claim Disposition & Denial Rate",
+    "summary": "Approximately 45.4% of all filed claims (99,181 cases) resulted in formal denial by claims adjusters.",
+    "severity": "warning",
+    "metric": "45.4% Denial Rate"
+  }
+]

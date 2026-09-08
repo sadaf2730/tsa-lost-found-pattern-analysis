@@ -1,0 +1,25 @@
+{
+  "total_records": 218489,
+  "total_columns": 16,
+  "airports_covered": 470,
+  "states_covered": 56,
+  "year_range": "2002 \u2013 2017",
+  "columns": [
+    "Claim_Number",
+    "Date_Received",
+    "Incident_Date",
+    "Airport_Code",
+    "Airport_Name",
+    "Claim_Type",
+    "Claim_Site",
+    "Item_Category",
+    "Close_Amount",
+    "Disposition",
+    "StateName",
+    "State",
+    "County",
+    "City",
+    "Month",
+    "Year"
+  ]
+}
