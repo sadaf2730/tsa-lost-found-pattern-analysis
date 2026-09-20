@@ -46,10 +46,10 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  // Filter sample records when filters change
+  // Filter sample records when filters change (limited to 20 records)
   const displayedClaims: TSAClaim[] = React.useMemo(() => {
     if (!data) return [];
-    return filterClaims(data.sampleClaims, filters);
+    return filterClaims(data.sampleClaims, filters).slice(0, 20);
   }, [data, filters]);
 
   return (
@@ -171,14 +171,13 @@ export default function HomePage() {
                 <div className="flex items-center gap-2">
                   <TableIcon className="w-4 h-4 text-tsa-accent" />
                   <h3 className="text-sm font-bold text-tsa-text">
-                    Dataset Records Preview ({displayedClaims.length} records matching filter)
+                    Dataset Records Preview ({displayedClaims.length} records)
                   </h3>
                 </div>
-                <span className="text-xs text-tsa-muted">Showing clean responsive preview</span>
               </div>
 
               {displayedClaims.length > 0 ? (
-                <div className="overflow-x-auto rounded-xl border border-tsa-border">
+                <div className="overflow-auto max-h-[500px] rounded-xl border border-tsa-border">
                   <table className="w-full text-left text-xs">
                     <thead className="bg-tsa-bg border-b border-tsa-border uppercase text-[11px] text-tsa-muted font-semibold tracking-wider">
                       <tr>

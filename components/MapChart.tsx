@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import PlotlyChart from "./PlotlyChart";
 import { AirportRiskData } from "@/lib/types";
-import { Compass, Info, MousePointerClick } from "lucide-react";
+import { Compass, Info } from "lucide-react";
 import { useTheme } from "next-themes";
 import type { Data } from "plotly.js";
 
@@ -167,24 +167,14 @@ export default function MapChart({
   return (
     <div className="bg-tsa-surface border border-tsa-border rounded-2xl p-5 shadow-card space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-tsa-border/60 pb-3">
+      <div className="flex items-center justify-between gap-2 border-b border-tsa-border/60 pb-3">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-lg bg-tsa-primary/20 border border-tsa-accent/30 text-tsa-accent">
             <Compass className="w-4 h-4" />
           </div>
-          <div>
-            <h3 className="text-sm font-bold text-tsa-text tracking-tight flex items-center gap-2">
-              Hybrid U.S. Geographic Map (Choropleth + Airport Markers)
-            </h3>
-            <p className="text-xs text-tsa-muted">
-              State fill = State claim density • Airport marker color = Operational Risk Score (0–100)
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1.5 text-xs text-tsa-accent font-semibold bg-tsa-primary/10 px-3 py-1.5 rounded-lg border border-tsa-accent/20">
-          <MousePointerClick className="w-3.5 h-3.5" />
-          <span>Click Bubble to Filter</span>
+          <h3 className="text-sm font-bold text-tsa-text tracking-tight">
+            Hybrid U.S. Geographic Map (Choropleth + Airport Markers)
+          </h3>
         </div>
       </div>
 

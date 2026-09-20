@@ -20,7 +20,6 @@ import {
   Scale,
   Plane,
   Sparkles,
-  MousePointerClick,
 } from "lucide-react";
 
 export default function ExecutiveOverviewPage() {
@@ -125,11 +124,6 @@ export default function ExecutiveOverviewPage() {
               {activeFiltersSummaryString}
             </span>
           </div>
-
-          <div className="flex items-center gap-2 text-[11px] text-tsa-muted">
-            <MousePointerClick className="w-3.5 h-3.5 text-tsa-accent" />
-            <span>Click chart bars or donut slices to filter</span>
-          </div>
         </div>
 
         <FilterChips />
@@ -205,7 +199,6 @@ export default function ExecutiveOverviewPage() {
             {/* Flagship Chart 1: Monthly Claim Volume Trend */}
             <ChartCard
               title="Monthly Claim Volume Trend"
-              subtitle="When do claims peak? Aggregated monthly travel loss distribution"
               badge="Interactive Line Plot"
               height="h-80"
             >
@@ -233,7 +226,6 @@ export default function ExecutiveOverviewPage() {
             {/* Flagship Chart 2: Top 10 Airports by Claim Volume */}
             <ChartCard
               title="Top 10 Airports by Claim Volume"
-              subtitle="Which airports receive most claims? (Click bar to filter)"
               badge="Interactive Bar Plot"
               height="h-80"
             >
@@ -267,7 +259,6 @@ export default function ExecutiveOverviewPage() {
             {/* Flagship Chart 3: Premium Executive Donut (Top 5 + "Other") */}
             <ChartCard
               title="Claim Type Distribution (Top 5 + Other)"
-              subtitle="What types of claims dominate? (Click slice to filter)"
               badge="Executive Donut"
               height="h-80"
             >
@@ -304,7 +295,6 @@ export default function ExecutiveOverviewPage() {
             {/* Flagship Chart 4: Year-over-Year Claim Trend */}
             <ChartCard
               title="Year-over-Year Claim Trend (2002 – 2017)"
-              subtitle="How has claim volume changed over time? Peak historical trajectory"
               badge="Historical Trend"
               height="h-80"
             >
@@ -354,14 +344,9 @@ export default function ExecutiveOverviewPage() {
               <div className="p-2 rounded-lg bg-tsa-primary/20 border border-tsa-accent/30 text-tsa-accent">
                 <Sparkles className="w-4 h-4" />
               </div>
-              <div>
-                <h2 className="text-base font-bold text-tsa-text tracking-tight">
-                  Automated Executive Intelligence Panel
-                </h2>
-                <p className="text-xs text-tsa-muted">
-                  Dynamically evaluated operational findings based on current selection
-                </p>
-              </div>
+              <h2 className="text-base font-bold text-tsa-text tracking-tight">
+                Automated Executive Intelligence Panel
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

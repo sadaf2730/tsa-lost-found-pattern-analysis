@@ -19,7 +19,6 @@ import {
   Award,
   PieChart,
   BrainCircuit,
-  MousePointerClick,
 } from "lucide-react";
 
 export default function FinancialAnalysisPage() {
@@ -120,11 +119,6 @@ export default function FinancialAnalysisPage() {
               {activeFiltersSummaryString}
             </span>
           </div>
-
-          <div className="flex items-center gap-2 text-[11px] text-tsa-muted">
-            <MousePointerClick className="w-3.5 h-3.5 text-tsa-accent" />
-            <span>Click airport bars to slice dashboard</span>
-          </div>
         </div>
 
         <FilterChips />
@@ -200,7 +194,6 @@ export default function FinancialAnalysisPage() {
             {/* Flagship Chart 1: Yearly Settlement Trend */}
             <ChartCard
               title="Yearly Settlement Trend ($)"
-              subtitle="How have payouts changed over time? Peak historical expenditure"
               badge="Financial Trend"
               height="h-80"
             >
@@ -246,7 +239,6 @@ export default function FinancialAnalysisPage() {
             {/* Flagship Chart 2: Top 10 Airports by Settlement */}
             <ChartCard
               title="Top 10 Airports by Total Settlement ($)"
-              subtitle="Which airports create largest financial impact? (Click bar to filter)"
               badge="Airport Liability"
               height="h-80"
             >
@@ -282,7 +274,6 @@ export default function FinancialAnalysisPage() {
             {/* Flagship Chart 3: Settlement Distribution Histogram */}
             <ChartCard
               title="Settlement Value Histogram & Frequency Density"
-              subtitle="How are payouts distributed? Frequency density of settlement ranges"
               badge="Value Histogram"
               height="h-80"
             >
@@ -311,7 +302,6 @@ export default function FinancialAnalysisPage() {
             {/* Flagship Chart 4: Claim Amount Box Plot */}
             <ChartCard
               title="Claim Amount Box Plot & Statistical Quartiles"
-              subtitle="Are there extreme payout outliers? Median, Q1/Q3 quartiles & outliers"
               badge="Box Plot Analysis"
               height="h-80"
             >
@@ -343,14 +333,9 @@ export default function FinancialAnalysisPage() {
               <div className="p-2 rounded-lg bg-tsa-primary/20 border border-tsa-accent/30 text-tsa-accent">
                 <BrainCircuit className="w-4 h-4" />
               </div>
-              <div>
-                <h2 className="text-base font-bold text-tsa-text tracking-tight">
-                  Automated Financial Intelligence Panel
-                </h2>
-                <p className="text-xs text-tsa-muted">
-                  Algorithmic financial liability insights evaluated from active telemetry
-                </p>
-              </div>
+              <h2 className="text-base font-bold text-tsa-text tracking-tight">
+                Automated Financial Intelligence Panel
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

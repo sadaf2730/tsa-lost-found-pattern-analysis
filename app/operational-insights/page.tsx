@@ -23,7 +23,6 @@ import {
   Clock,
   Ban,
   BrainCircuit,
-  MousePointerClick,
 } from "lucide-react";
 
 export default function OperationalInsightsPage() {
@@ -154,11 +153,6 @@ export default function OperationalInsightsPage() {
               {activeFiltersSummaryString}
             </span>
           </div>
-
-          <div className="flex items-center gap-2 text-[11px] text-tsa-muted">
-            <MousePointerClick className="w-3.5 h-3.5 text-tsa-accent" />
-            <span>Click map bubbles or state bars to zoom & filter</span>
-          </div>
         </div>
 
         <FilterChips />
@@ -243,7 +237,6 @@ export default function OperationalInsightsPage() {
             {/* Flagship Visualization 2: State Claim Density */}
             <ChartCard
               title="State Claim Density (Top 10 States)"
-              subtitle="Which states are highest? Regional concentration ranking (Click bar to drill down)"
               badge="Geographic Ranking"
               height="h-80"
             >
@@ -277,7 +270,6 @@ export default function OperationalInsightsPage() {
             {/* Flagship Visualization 3: Claim Site Distribution (Top 3 + Other Donut) */}
             <ChartCard
               title="Claim Site Distribution (Top 3 + Other)"
-              subtitle="Where do losses occur inside airports? Checkpoint vs Baggage"
               badge="Executive Donut"
               height="h-80"
             >
@@ -315,7 +307,6 @@ export default function OperationalInsightsPage() {
           {/* Flagship Visualization 4: Monthly Operational Heatmap (Full Width) */}
           <ChartCard
             title="Monthly Operational Heatmap (Years x Months)"
-            subtitle="What seasonal travel loss patterns exist? 2D Multi-year temporal matrix"
             badge="Seasonal Heatmap"
             height="h-96"
           >
@@ -350,14 +341,9 @@ export default function OperationalInsightsPage() {
               <div className="p-2 rounded-lg bg-tsa-primary/20 border border-tsa-accent/30 text-tsa-accent">
                 <BrainCircuit className="w-4 h-4" />
               </div>
-              <div>
-                <h2 className="text-base font-bold text-tsa-text tracking-tight">
-                  Automated Geographic Intelligence Panel
-                </h2>
-                <p className="text-xs text-tsa-muted">
-                  Algorithmic spatial findings evaluated from active dataset telemetry
-                </p>
-              </div>
+              <h2 className="text-base font-bold text-tsa-text tracking-tight">
+                Automated Geographic Intelligence Panel
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
