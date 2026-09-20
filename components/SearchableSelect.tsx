@@ -10,6 +10,7 @@ interface SearchableSelectProps {
   onChange: (val: string) => void;
   placeholder?: string;
   disabled?: boolean;
+  getOptionLabel?: (val: string) => string;
 }
 
 export default function SearchableSelect({
@@ -19,6 +20,7 @@ export default function SearchableSelect({
   onChange,
   placeholder = "Select...",
   disabled = false,
+  getOptionLabel,
 }: SearchableSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,15 +46,29 @@ export default function SearchableSelect({
   }, [isOpen]);
 
   const allOptions = ["All", ...options];
-  const filteredOptions = allOptions.filter((opt) =>
-    opt.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
+  const filteredOptions = allOptions.filter((opt) => {
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.toLowerCase().trim();
+    if (opt === "All") {
+      return "all".includes(query);
+    }
+    const optLower = opt.toLowerCase();
+    const labelLower = getOptionLabel ? getOptionLabel(opt).toLowerCase() : optLower;
+    return optLower.includes(query) || labelLower.includes(query);
+  });
 
   const handleSelect = (selectedVal: string) => {
     onChange(selectedVal);
     setIsOpen(false);
     setSearchQuery("");
   };
+
+  const displayValue =
+    value === "All" || !value
+      ? value || placeholder
+      : getOptionLabel
+      ? getOptionLabel(value)
+      : value;
 
   return (
     <div className="flex flex-col gap-1.5 relative" ref={containerRef}>
@@ -65,6 +81,7 @@ export default function SearchableSelect({
         type="button"
         disabled={disabled}
         onClick={() => setIsOpen(!isOpen)}
+        title={displayValue}
         className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg border bg-tsa-surface text-xs text-left transition-all duration-150 ${
           disabled
             ? "opacity-50 cursor-not-allowed border-tsa-border"
@@ -75,7 +92,7 @@ export default function SearchableSelect({
             : "border-tsa-border text-tsa-text hover:border-tsa-accent/50"
         }`}
       >
-        <span className="truncate pr-2">{value || placeholder}</span>
+        <span className="truncate pr-2">{displayValue}</span>
         <ChevronDown
           className={`w-3.5 h-3.5 text-tsa-muted transition-transform duration-200 shrink-0 ${
             isOpen ? "rotate-180 text-tsa-accent" : ""
@@ -112,18 +129,21 @@ export default function SearchableSelect({
             {filteredOptions.length > 0 ? (
               filteredOptions.map((opt) => {
                 const isSelected = value === opt;
+                const optDisplayLabel =
+                  opt === "All" ? "All" : getOptionLabel ? getOptionLabel(opt) : opt;
                 return (
                   <button
                     key={opt}
                     type="button"
                     onClick={() => handleSelect(opt)}
+                    title={optDisplayLabel}
                     className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs flex items-center justify-between transition-colors ${
                       isSelected
                         ? "bg-tsa-primary/20 text-tsa-accent font-semibold"
                         : "text-tsa-text hover:bg-tsa-bg"
                     }`}
                   >
-                    <span className="truncate">{opt}</span>
+                    <span className="truncate">{optDisplayLabel}</span>
                     {isSelected && <Check className="w-3.5 h-3.5 text-tsa-accent shrink-0" />}
                   </button>
                 );

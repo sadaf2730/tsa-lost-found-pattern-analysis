@@ -30,13 +30,9 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1 w-full">{children}</main>
             <footer className="w-full border-t border-tsa-border/60 py-6 bg-tsa-surface/40">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-tsa-muted">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-tsa-text">TSA Lost & Found Pattern Analysis</span>
-                  <span>—</span>
-                  <span>Airport Operations Research Platform</span>
-                </div>
-                <div>Powered by Next.js 15, Python Pandas & Next-Themes</div>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-tsa-muted">
+                <span className="font-semibold text-tsa-text">TSA Lost & Found Pattern Analysis</span>
+                <span>Aviation Claims & Operations Intelligence</span>
               </div>
             </footer>
           </FilterProvider>

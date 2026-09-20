@@ -9,6 +9,7 @@ import { loadTSADataset, LoadedDataset } from "@/lib/dataLoader";
 import { useFilterContext } from "@/context/FilterContext";
 import { filterClaims } from "@/lib/filters";
 import { TSAClaim } from "@/lib/types";
+import { getStateFullName, getAirportFullName } from "@/lib/lookups";
 import {
   FileSpreadsheet,
   Columns,
@@ -19,7 +20,6 @@ import {
   AlertCircle,
   Database,
   Table as TableIcon,
-  CheckCircle2,
   Sparkles,
 } from "lucide-react";
 
@@ -72,16 +72,6 @@ export default function HomePage() {
           <p className="text-sm text-tsa-muted leading-relaxed">
             This research platform analyzes historical Transportation Security Administration (TSA) lost-property and damage claims filed across commercial airports in the United States. By combining visual analytics, spatial statistics, and financial modeling, the platform enables analysts and airport operations managers to examine systemic loss hotspots, evaluate claim resolution rates, identify temporal trends, and optimize checkpoint security asset protection protocols.
           </p>
-
-          <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-tsa-muted border-t border-tsa-border/40">
-            <span className="flex items-center gap-1 font-semibold text-tsa-text">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Python Analytics Engine Integrated
-            </span>
-            <span>•</span>
-            <span>App Router Architecture</span>
-            <span>•</span>
-            <span>Open Access Dataset</span>
-          </div>
         </section>
 
         {/* 3. Global Filter Panel */}
@@ -103,12 +93,6 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-
-            {data?.isFromJSON && (
-              <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hidden sm:inline-block">
-                Python Preprocessed JSON Pipeline
-              </span>
-            )}
           </div>
 
           {/* Loading State */}
@@ -213,19 +197,30 @@ export default function HomePage() {
                         >
                           {data.overview.columns.map((col) => {
                             const val = row[col];
-                            const formatted =
+                            let formatted =
                               val === null || val === undefined || val === ""
                                 ? "Unknown"
                                 : String(val);
+
+                            if (col === "Close_Amount" && typeof val === "number") {
+                              formatted = `$${val.toFixed(2)}`;
+                            } else if (col === "State") {
+                              formatted = getStateFullName(formatted);
+                            } else if (col === "Airport_Code") {
+                              formatted = getAirportFullName(formatted);
+                            } else if (col === "Airport_Name" && (formatted === "Unknown" || !formatted)) {
+                              if (row.Airport_Code && row.Airport_Code !== "Unknown") {
+                                formatted = getAirportFullName(String(row.Airport_Code));
+                              }
+                            }
+
                             return (
                               <td
                                 key={col}
                                 className="px-3.5 py-2.5 max-w-xs truncate"
                                 title={formatted}
                               >
-                                {col === "Close_Amount" && typeof val === "number"
-                                  ? `$${val.toFixed(2)}`
-                                  : formatted}
+                                {formatted}
                               </td>
                             );
                           })}

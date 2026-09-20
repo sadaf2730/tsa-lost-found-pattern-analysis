@@ -2,6 +2,7 @@
 
 import { useFilterContext } from "@/context/FilterContext";
 import { FilterState } from "@/lib/types";
+import { getStateFullName, getAirportFullName } from "@/lib/lookups";
 import { X, RotateCcw } from "lucide-react";
 
 const FILTER_LABELS: Record<keyof FilterState, string> = {
@@ -28,22 +29,31 @@ export default function FilterChips() {
         Active Filters ({activeEntries.length}):
       </span>
 
-      {activeEntries.map(([key, val]) => (
-        <div
-          key={key}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tsa-primary/20 border border-tsa-accent/30 text-tsa-accent text-xs font-medium shadow-sm transition-all hover:border-tsa-accent"
-        >
-          <span className="text-tsa-muted text-[11px] font-normal">{FILTER_LABELS[key]}:</span>
-          <span className="font-semibold">{val}</span>
-          <button
-            onClick={() => removeFilter(key)}
-            className="p-0.5 rounded-full hover:bg-tsa-accent/20 text-tsa-accent transition-colors"
-            title={`Remove ${FILTER_LABELS[key]} filter`}
+      {activeEntries.map(([key, val]) => {
+        let displayVal = val;
+        if (key === "state") {
+          displayVal = getStateFullName(val);
+        } else if (key === "airport") {
+          displayVal = getAirportFullName(val);
+        }
+
+        return (
+          <div
+            key={key}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tsa-primary/20 border border-tsa-accent/30 text-tsa-accent text-xs font-medium shadow-sm transition-all hover:border-tsa-accent"
           >
-            <X className="w-3 h-3" />
-          </button>
-        </div>
-      ))}
+            <span className="text-tsa-muted text-[11px] font-normal">{FILTER_LABELS[key]}:</span>
+            <span className="font-semibold">{displayVal}</span>
+            <button
+              onClick={() => removeFilter(key)}
+              className="p-0.5 rounded-full hover:bg-tsa-accent/20 text-tsa-accent transition-colors"
+              title={`Remove ${FILTER_LABELS[key]} filter`}
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+        );
+      })}
 
       <button
         onClick={resetFilters}

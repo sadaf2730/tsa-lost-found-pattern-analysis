@@ -1,18 +1,26 @@
-"use client";
-
+import React, { useMemo } from "react";
 import InsightCard from "./InsightCard";
 import { ResearchInsight } from "@/lib/types";
-import { BrainCircuit, BookOpen } from "lucide-react";
+import { formatStateReferences } from "@/lib/lookups";
+import { BrainCircuit } from "lucide-react";
 
 interface ResearchInsightsSectionProps {
   insights: ResearchInsight[];
 }
 
 export default function ResearchInsightsSection({ insights }: ResearchInsightsSectionProps) {
+  const formattedInsights = useMemo(() => {
+    return insights.map((insight) => ({
+      ...insight,
+      title: formatStateReferences(insight.title),
+      summary: formatStateReferences(insight.summary),
+    }));
+  }, [insights]);
+
   return (
     <section className="space-y-4">
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-tsa-border/60">
+      <div className="flex items-center justify-between pb-2 border-b border-tsa-border/60">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-lg bg-tsa-primary/20 border border-tsa-accent/30 text-tsa-accent">
             <BrainCircuit className="w-4 h-4" />
@@ -26,16 +34,11 @@ export default function ResearchInsightsSection({ insights }: ResearchInsightsSe
             </p>
           </div>
         </div>
-
-        <div className="flex items-center gap-1.5 text-xs text-tsa-accent font-semibold bg-tsa-primary/10 px-3 py-1.5 rounded-lg border border-tsa-accent/20 self-start sm:self-auto">
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>Research Methodology V1.0</span>
-        </div>
       </div>
 
       {/* Grid of Insight Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {insights.map((insight) => (
+        {formattedInsights.map((insight) => (
           <InsightCard key={insight.id} insight={insight} />
         ))}
       </div>

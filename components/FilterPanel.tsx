@@ -5,6 +5,7 @@ import SearchableSelect from "./SearchableSelect";
 import FilterChips from "./FilterChips";
 import { useFilterContext } from "@/context/FilterContext";
 import { FilterOptions } from "@/lib/types";
+import { getStateFullName, getAirportFullName } from "@/lib/lookups";
 import { SlidersHorizontal, RotateCcw, Play } from "lucide-react";
 
 interface FilterPanelProps {
@@ -22,6 +23,20 @@ export default function FilterPanel({ filterOptions, onAnalyze }: FilterPanelPro
     }
     return filterOptions.airports;
   }, [filters.state, filterOptions]);
+
+  // Sort states alphabetically by full state name
+  const sortedStates = useMemo(() => {
+    return [...filterOptions.states].sort((a, b) =>
+      getStateFullName(a).localeCompare(getStateFullName(b))
+    );
+  }, [filterOptions.states]);
+
+  // Sort airports alphabetically by full airport name
+  const sortedAirports = useMemo(() => {
+    return [...availableAirports].sort((a, b) =>
+      getAirportFullName(a).localeCompare(getAirportFullName(b))
+    );
+  }, [availableAirports]);
 
   const handleAnalyzeClick = () => {
     applyFilters();
@@ -79,17 +94,23 @@ export default function FilterPanel({ filterOptions, onAnalyze }: FilterPanelPro
 
         <SearchableSelect
           label="State"
-          options={filterOptions.states}
+          options={sortedStates}
           value={filters.state}
           onChange={(val) => setFilter("state", val)}
+          getOptionLabel={getStateFullName}
         />
 
         <SearchableSelect
           label="Airport"
-          options={availableAirports}
+          options={sortedAirports}
           value={filters.airport}
           onChange={(val) => setFilter("airport", val)}
-          placeholder={filters.state !== "All" ? `Airports in ${filters.state}...` : "Select Airport..."}
+          getOptionLabel={getAirportFullName}
+          placeholder={
+            filters.state !== "All"
+              ? `Airports in ${getStateFullName(filters.state)}...`
+              : "Select Airport..."
+          }
         />
 
         <SearchableSelect
