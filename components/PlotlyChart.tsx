@@ -94,7 +94,7 @@ export default function PlotlyChart({
 
   const defaultConfig: Partial<Config> = {
     responsive: true,
-    displayModeBar: true,
+    displayModeBar: "hover",
     displaylogo: false,
     modeBarButtonsToRemove: ["lasso2d", "select2d"],
     toImageButtonOptions: {

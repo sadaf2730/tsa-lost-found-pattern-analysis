@@ -65,3 +65,19 @@
   background: linear-gradient(90deg, transparent, var(--tsa-accent), transparent);
   height: 1px;
 }
+
+/* Plotly Modebar Styling & Transitions */
+.modebar-container {
+  transition: opacity 0.2s ease-in-out !important;
+}
+
+.modebar-btn path {
+  fill: var(--tsa-muted) !important;
+  transition: fill 0.15s ease-in-out;
+}
+
+.modebar-btn:hover path,
+.modebar-btn.active path {
+  fill: var(--tsa-accent) !important;
+}
+
