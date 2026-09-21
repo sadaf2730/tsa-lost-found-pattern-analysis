@@ -5,8 +5,35 @@ export interface LoadedDataset {
   overview: OverviewStats;
   filterOptions: FilterOptions;
   sampleClaims: TSAClaim[];
+  claims: TSAClaim[];
   insights: ResearchInsight[];
   isFromJSON: boolean;
+}
+
+/**
+ * Parses the complete public CSV dataset of TSA claims using PapaParse.
+ */
+function parseFullClaimsCSV(): Promise<TSAClaim[]> {
+  return new Promise((resolve, reject) => {
+    Papa.parse<TSAClaim>("/data/cleaned_tsa_claims.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: {
+        Close_Amount: true,
+      },
+      complete: (results) => {
+        if (!results.data || results.data.length === 0) {
+          reject(new Error("Parsed claims dataset is empty or invalid."));
+          return;
+        }
+        resolve(results.data);
+      },
+      error: (error) => {
+        reject(new Error(`CSV Parsing Failed: ${error.message}`));
+      },
+    });
+  });
 }
 
 /**
@@ -15,12 +42,13 @@ export interface LoadedDataset {
  */
 export async function loadTSADataset(): Promise<LoadedDataset> {
   try {
-    // Attempt 1: Fetch Python preprocessed JSON artifacts
-    const [overviewRes, filterRes, sampleRes, insightsRes] = await Promise.all([
+    // Attempt 1: Fetch Python preprocessed JSON artifacts and load full CSV for claims
+    const [overviewRes, filterRes, sampleRes, insightsRes, fullClaims] = await Promise.all([
       fetch("/data/overview.json"),
       fetch("/data/filter_options.json"),
       fetch("/data/sample_claims.json"),
       fetch("/data/research_insights.json"),
+      parseFullClaimsCSV(),
     ]);
 
     if (overviewRes.ok && filterRes.ok && sampleRes.ok && insightsRes.ok) {
@@ -33,6 +61,7 @@ export async function loadTSADataset(): Promise<LoadedDataset> {
         overview,
         filterOptions,
         sampleClaims,
+        claims: fullClaims,
         insights,
         isFromJSON: true,
       };
@@ -47,15 +76,17 @@ export async function loadTSADataset(): Promise<LoadedDataset> {
       download: true,
       header: true,
       skipEmptyLines: true,
-      preview: 50, // Fast preview parse
+      dynamicTyping: {
+        Close_Amount: true,
+      },
       complete: (results) => {
         if (!results.data || results.data.length === 0) {
           reject(new Error("Parsed dataset is empty or invalid."));
           return;
         }
 
-        const sampleClaims = results.data;
-        const columns = Object.keys(sampleClaims[0] || {});
+        const claims = results.data;
+        const columns = Object.keys(claims[0] || {});
 
         // Auto-detect columns & calculate statistics dynamically
         const yearsSet = new Set<string>();
@@ -66,7 +97,7 @@ export async function loadTSADataset(): Promise<LoadedDataset> {
         const monthsSet = new Set<string>();
         const stateAirportMap: Record<string, string[]> = {};
 
-        sampleClaims.forEach((row) => {
+        claims.forEach((row) => {
           const year = String(row.Year || "").replace(".0", "").trim();
           if (year && year !== "Unknown") yearsSet.add(year);
 
@@ -98,7 +129,7 @@ export async function loadTSADataset(): Promise<LoadedDataset> {
 
         resolve({
           overview: {
-            total_records: 218489,
+            total_records: claims.length,
             total_columns: columns.length,
             airports_covered: airportsSet.size,
             states_covered: statesSet.size,
@@ -114,7 +145,8 @@ export async function loadTSADataset(): Promise<LoadedDataset> {
             months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].filter((m) => monthsSet.has(m)),
             state_airport_map: stateAirportMap,
           },
-          sampleClaims,
+          sampleClaims: claims.slice(0, 20),
+          claims,
           insights: [
             {
               id: "INS-001",

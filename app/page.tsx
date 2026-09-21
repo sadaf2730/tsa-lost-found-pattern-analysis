@@ -46,10 +46,10 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  // Filter sample records when filters change (limited to 20 records)
+  // Filter records when filters change (limited to 20 records from full dataset)
   const displayedClaims: TSAClaim[] = React.useMemo(() => {
     if (!data) return [];
-    return filterClaims(data.sampleClaims, filters).slice(0, 20);
+    return filterClaims(data.claims, filters).slice(0, 20);
   }, [data, filters]);
 
   return (
@@ -203,6 +203,10 @@ export default function HomePage() {
 
                             if (col === "Close_Amount" && typeof val === "number") {
                               formatted = `$${val.toFixed(2)}`;
+                            } else if (col === "Incident_Date") {
+                              if (formatted !== "Unknown") {
+                                formatted = formatted.split(" ")[0].split("T")[0];
+                              }
                             } else if (col === "State") {
                               formatted = getStateFullName(formatted);
                             } else if (col === "Airport_Code") {
